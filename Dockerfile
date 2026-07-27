@@ -1,4 +1,4 @@
-# Build stage
+﻿# Build stage
 FROM node:20-alpine AS builder
 WORKDIR /app
 
@@ -25,4 +25,4 @@ RUN chown -R nodejs:nodejs /app
 
 USER nodejs
 EXPOSE 3000
-CMD ["node", "dist-server/server/index.js"]
+CMD ["node", "dist-server/index.js"]
