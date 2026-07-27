@@ -36,9 +36,6 @@ RUN npm ci --only=production --legacy-peer-deps && npm cache clean --force
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/dist-server ./dist-server
 
-# Copy necessary static files
-COPY --from=builder /app/public ./public
-
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001 && \
