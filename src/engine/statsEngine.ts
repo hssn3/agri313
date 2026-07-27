@@ -373,13 +373,21 @@ export class StatsEngine {
       s.source.includes('خطای ب') || s.source.includes('Error b') ||
       s.source.includes('خطا') || s.source.toLowerCase().includes('error')
     );
+    // پیدا کردن معنی‌دارترین source در ANOVA (تیمار یا هر فاکتور)
     const treatSrc = anova.sources.find(s =>
       s.source.includes('تیمار') || s.source.includes('Treatment') ||
       s.source.includes('فاکتور اصلی')
     );
+    // اگر treatSrc نبود، بررسی کن آیا هر source غیر از خطا و کل معنی‌داره
+    const anySigSrc = anova.sources.find(s =>
+      !s.source.includes('کل') && !s.source.includes('Total') &&
+      !s.source.includes('خطا') && !s.source.toLowerCase().includes('error') &&
+      !s.source.includes('تکرار') && !s.source.includes('Replication') &&
+      s.significance !== 'ns' && s.fCalc > 0
+    );
     const mse = errSrc?.ms ?? 1;
     const dfE = errSrc?.df ?? 1;
-    const isSignificant = treatSrc ? treatSrc.significance !== 'ns' : false;
+    const isSignificant = (treatSrc ? treatSrc.significance !== 'ns' : false) || (!!anySigSrc);
 
     // محاسبه میانگین تیمارها
     const tMeans: Record<string, number[]> = {};

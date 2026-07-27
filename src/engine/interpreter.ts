@@ -265,7 +265,12 @@ export function generateFullReport(params: {
   sections.push(`\n### نتیجه‌گیری\n`);
   const sigTraits = config.traits.filter(t => {
     const a = anovaResults[t];
-    return a?.sources.some(s => s.significance !== 'ns' && !s.source.includes('کل') && !s.source.toLowerCase().includes('error'));
+    return a?.sources.some(s =>
+      s.significance !== 'ns' && s.fCalc > 0 &&
+      !s.source.includes('کل') && !s.source.toLowerCase().includes('total') &&
+      !s.source.includes('خطا') && !s.source.toLowerCase().includes('error') &&
+      !s.source.includes('تکرار') && !s.source.toLowerCase().includes('rep')
+    );
   });
 
   if (sigTraits.length > 0) {
