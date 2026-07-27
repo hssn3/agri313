@@ -1,14 +1,13 @@
 [build]
-builder = "DOCKERFILE"
-dockerfilePath = "./Dockerfile"
+builder = "NIXPACKS"
 
 [deploy]
 startCommand = "node dist-server/server/index.js"
 healthcheckPath = "/api/health"
-healthcheckTimeout = 30
+healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
 
-[environments.production.variables]
+[deploy.envVariables]
 PORT = "3000"
 NODE_ENV = "production"
