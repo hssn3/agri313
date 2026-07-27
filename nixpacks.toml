@@ -6,9 +6,9 @@ cmds = ["npm ci --legacy-peer-deps"]
 
 [phases.build]
 cmds = [
-  "npx tsc -p tsconfig.app.json",
-  "npx vite build",
-  "npx tsc -p tsconfig.server.json"
+  "./node_modules/.bin/tsc -p tsconfig.app.json",
+  "./node_modules/.bin/vite build",
+  "./node_modules/.bin/tsc -p tsconfig.server.json"
 ]
 
 [start]
