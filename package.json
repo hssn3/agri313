@@ -1,11 +1,13 @@
 {
   "name": "smartagri-analyze",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.app.json && vite build",
+    "build": "node scripts/bump-version.mjs patch \"بهبودهای خودکار\" && tsc -p tsconfig.app.json && vite build",
+    "build:minor": "node scripts/bump-version.mjs minor",
+    "build:major": "node scripts/bump-version.mjs major",
     "preview": "vite preview",
     "server:dev": "tsx watch server/index.ts",
     "server:build": "tsc -p tsconfig.server.json",

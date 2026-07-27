@@ -12,7 +12,7 @@ export const DataEntryForm: React.FC<Props> = ({ designType, onBack, onSubmit })
   const [treatments, setTreatments] = useState(designType === DesignType.LSD ? 4 : 3);
   const [replications, setReplications] = useState(3);
   const [traitInput, setTraitInput] = useState('');
-  const [traits, setTraits] = useState<string[]>(['Yield']);
+  const [traits, setTraits] = useState<string[]>([]);
   const [factorA, setFactorA] = useState(2);
   const [factorB, setFactorB] = useState(3);
   const [labelA, setLabelA] = useState('');
@@ -27,7 +27,7 @@ export const DataEntryForm: React.FC<Props> = ({ designType, onBack, onSubmit })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (traits.length === 0) { alert('حداقل یک صفت تعریف کنید.'); return; }
+    if (traits.length === 0) { alert('حداقل یک صفت تعریف کنید.\nمثال: Yield یا عملکرد، PlantHeight یا ارتفاع بوته'); return; }
     const cfg: ExperimentalConfig = {
       treatments: designType === DesignType.LSD ? treatments : treatments,
       replications: designType === DesignType.LSD ? treatments : replications,

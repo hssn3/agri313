@@ -13,6 +13,7 @@ interface Props {
   config: ExperimentalConfig;
   designType: DesignType;
   onBack: () => void;
+  onAnalysisDone?: (result: AnalysisResult) => void;
 }
 
 type Tab = 'descriptive' | 'anova' | 'comparison' | 'charts' | 'report';
@@ -25,7 +26,7 @@ const TABS: { id: Tab; label: string; emoji: string }[] = [
   { id: 'report', label: 'گزارش نهایی', emoji: '📄' },
 ];
 
-export const AnalysisPage: React.FC<Props> = ({ data, config, designType, onBack }) => {
+export const AnalysisPage: React.FC<Props> = ({ data, config, designType, onBack, onAnalysisDone }) => {
   const [currentData, setCurrentData] = useState(data);
   const [method, setMethod] = useState<ComparisonMethod>('DUNCAN');
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -46,6 +47,7 @@ export const AnalysisPage: React.FC<Props> = ({ data, config, designType, onBack
       const r = runLocalAnalysis({ data: currentData, traits: config.traits, designType, config, method });
       setResult(r);
       setActiveTab('anova');
+      onAnalysisDone?.(r);
     } catch (err: any) {
       alert('خطا در محاسبات: ' + err.message);
     } finally {

@@ -5,12 +5,13 @@
     "moduleResolution": "NodeNext",
     "lib": ["ES2020"],
     "outDir": "./dist-server",
-    "rootDir": ".",
+    "rootDir": "./server",
     "skipLibCheck": true,
     "strict": false,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "sourceMap": true
+    "sourceMap": false
   },
-  "include": ["server", "src/engine", "src/types"]
+  "include": ["server/**/*"],
+  "exclude": ["src", "node_modules", "dist"]
 }

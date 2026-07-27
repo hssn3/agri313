@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { DataRow, ExperimentalConfig, DesignType } from '../types';
 import { parseCSV } from '../services/analysisService';
+import { getSampleData } from '../services/sampleData';
 
 interface Props {
   designType: DesignType;
@@ -55,7 +56,23 @@ export const DataTable: React.FC<Props> = ({ designType, config, onBack, onStart
   const [rows, setRows] = useState<DataRow[]>(() => generateRows(designType, config));
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState('');
+  const [showSampleInfo, setShowSampleInfo] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const loadSampleData = () => {
+    const sample = getSampleData(designType);
+    if (!sample) return;
+    // بارگذاری داده‌های نمونه — فقط ردیف‌هایی که trait‌هایشان با config مطابق دارد
+    const mappedRows: DataRow[] = sample.data.map(r => ({
+      ...r,
+      values: Object.fromEntries(
+        config.traits.map(t => [t, r.values[t] ?? r.values[Object.keys(r.values)[config.traits.indexOf(t)]] ?? ''])
+      ),
+    }));
+    setRows(mappedRows);
+    setShowSampleInfo(true);
+    setTimeout(() => setShowSampleInfo(false), 4000);
+  };
 
   const updateCell = useCallback((id: string, trait: string, val: string) => {
     setRows(prev => prev.map(r => r.id === id ? { ...r, values: { ...r.values, [trait]: val } } : r));
@@ -144,6 +161,10 @@ export const DataTable: React.FC<Props> = ({ designType, config, onBack, onStart
             className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-xl text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-1">
             {importing ? '⏳' : '📂'} Import CSV
           </button>
+          <button onClick={loadSampleData}
+            className="px-4 py-2 border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-xl text-sm font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors flex items-center gap-1">
+            🎲 تولید داده نمونه
+          </button>
           <button onClick={handleAnalysis}
             className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-xl font-black shadow-lg hover:scale-[1.02] transition-transform">
             شروع تحلیل ▶
@@ -156,6 +177,20 @@ export const DataTable: React.FC<Props> = ({ designType, config, onBack, onStart
           ⚠️ {importError}
         </div>
       )}
+
+      {showSampleInfo && (() => {
+        const s = getSampleData(designType);
+        return s ? (
+          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl text-sm text-emerald-700 dark:text-emerald-300 flex items-start gap-2">
+            <span className="text-lg">✅</span>
+            <div>
+              <p className="font-bold">{s.title}</p>
+              <p className="text-xs mt-0.5">{s.description}</p>
+              <p className="text-xs mt-0.5 opacity-70">منبع: {s.source}</p>
+            </div>
+          </div>
+        ) : null;
+      })()}
 
       <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
         <table className="w-full text-sm border-collapse">

@@ -34,7 +34,7 @@ app.use('/api/export', exportRouter);
 
 // ── Health Check ──────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', version: '1.0.0', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', version: '1.1.0', timestamp: new Date().toISOString() });
 });
 
 // ── Static Files (SPA) ────────────────────────────────────────

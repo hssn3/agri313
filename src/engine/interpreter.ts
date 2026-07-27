@@ -7,7 +7,7 @@
 import type {
   TraitStats, AnovaResult, PostHocResult,
   CorrelationMatrix, RegressionResult, DesignType, ExperimentalConfig,
-} from '../types';
+} from '../types/index.js';
 
 // ============================================================
 // تفسیر آمار توصیفی

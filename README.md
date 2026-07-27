@@ -29,9 +29,33 @@ npm run server:dev   # Express backend → localhost:3000
 ## Build برای Production
 
 ```bash
-npm run build        # build frontend به dist/
-npx tsc -p tsconfig.server.json  # compile server
-npm start            # اجرای server روی پورت 3000
+# Frontend build (Vite)
+npm run build        # auto bump version + compile + build → dist/
+
+# Server compile (فقط server، بدون engine)
+npx tsc -p tsconfig.server.json  # → dist-server/
+
+# اجرا
+npm start            # مستقیم: node dist-server/server/index.js
+```
+
+## اجرا با PM2 (Windows Server)
+
+```powershell
+# نصب PM2
+npm install -g pm2
+
+# شروع سرویس
+pm2 start ecosystem.config.cjs
+pm2 save
+
+# مانیتورینگ
+pm2 status
+pm2 logs smartagri
+pm2 monit
+
+# Restart بعد از تغییرات
+pm2 restart smartagri
 ```
 
 ## Deploy روی Railway
@@ -80,11 +104,20 @@ server/
   middleware/      # Auth middleware (stub)
 ```
 
-## نقشه راه آینده
+## ویژگی‌های v1.1.0 🎉
 
-- [ ] احراز هویت با JWT
-- [ ] سیستم توکن برای استفاده از سرویس
-- [ ] درگاه پرداخت
-- [ ] تاریخچه تحلیل‌ها در database
-- [ ] یکپارچه‌سازی اختیاری Gemini AI
-- [ ] Import مستقیم از Excel (XLSX)
+- ✅ **پاکسازی داده‌های پیش‌فرض** — جداول با فیلدهای خالی شروع می‌شوند
+- ✅ **تاریخچه پروژه‌ها** — ذخیره خودکار هر تحلیل در localStorage با جستجو و بازگشایی
+- ✅ **دکمه تولید داده نمونه** — داده واقعی از Gomez&Gomez، Steel&Torrie، Cochran&Cox
+- ✅ **نقشه راه امکانات** — جدول ۲۵ امکان آینده با فیلتر دسته/اولویت
+- ✅ **Changelog خودکار** — هر build نسخه را بالا می‌برد
+
+## نقشه راه آینده (۲۵ امکان)
+
+برای مشاهده لیست کامل، در برنامه روی دکمه **🗺️ نقشه راه امکانات** کلیک کنید:
+
+- **آماری پیشرفته:** تحلیل پایداری، آزمون‌های ناپارامتری، PCA، مدیریت داده گمشده
+- **طرح‌های جدید:** Augmented، Alpha، Strip-Plot
+- **نمودارها:** Interaction Plot، Error Bar با حروف گروه‌بندی، Q-Q Plot
+- **گزارش:** Import XLSX مستقیم، خروجی Word، قالب APA/JAST
+- **سیستم:** احراز هویت JWT، اشتراک و توکن، ذخیره Cloud، API عمومی

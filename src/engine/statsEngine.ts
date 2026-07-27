@@ -4,13 +4,13 @@
  * شامل: ANOVA (5 طرح)، Post-hoc، Shapiro-Wilk، Correlation، Regression
  */
 
-import { fCritical, fPValue, qCritical, normalQuantile, tCritical } from './distributions';
+import { fCritical, fPValue, qCritical, normalQuantile, tCritical } from './distributions.js';
 import type {
   DataRow, ExperimentalConfig,
   TraitStats, AnovaResult, AnovaSource,
   PostHocResult, MeanGroup, ComparisonMethod,
   CorrelationMatrix, RegressionResult,
-} from '../types';
+} from '../types/index.js';
 
 // ============================================================
 // کمک‌ها
