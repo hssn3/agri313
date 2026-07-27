@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.app.json && vite build",
+    "build": "npx tsc -p tsconfig.app.json && npx vite build",
     "build:version": "node scripts/bump-version.mjs patch \"بهبودهای خودکار\" && npm run build",
     "build:minor": "node scripts/bump-version.mjs minor && npm run build",
     "build:major": "node scripts/bump-version.mjs major && npm run build",
     "preview": "vite preview",
     "server:dev": "tsx watch server/index.ts",
-    "server:build": "tsc -p tsconfig.server.json",
+    "server:build": "npx tsc -p tsconfig.server.json",
     "start": "node dist-server/server/index.js",
     "dev:all": "concurrently \"npm run dev\" \"npm run server:dev\""
   },
